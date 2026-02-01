@@ -3,57 +3,99 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Reality Patch | Biological Systems Observatory</title>
+    <title>YUNNAN | Ground Truth OS</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <style>
-        body { background-color: #050505; color: #a1a1aa; font-family: 'Courier New', Courier, monospace; }
-        .glitch-text { color: #10b981; text-shadow: 0 0 5px rgba(16, 185, 129, 0.5); }
-        .border-data { border: 1px solid #27272a; }
+        body { background-color: #050505; color: #00FF41; font-family: 'Courier New', Courier, monospace; }
+        .module-border { border: 1px solid #1a2e1a; background: rgba(0, 20, 0, 0.4); }
+        .status-pulse { animation: pulse 2s infinite; }
+        @keyframes pulse { 0% { opacity: 1; } 50% { opacity: 0.3; } 100% { opacity: 1; } }
+        .hidden-content { filter: blur(4px); pointer-events: none; }
     </style>
 </head>
-<body class="p-6 md:p-12 lg:p-24">
-    <header class="flex justify-between text-xs mb-16 opacity-50">
-        <div>LAT: 22.0167° N | LONG: 101.2333° E</div>
-        <div>ALTITUDE: 1,450M</div>
-        <div>STATUS: LIVE SAMPLING</div>
-    </header>
-
-    <main class="max-w-3xl mx-auto">
-        <section class="mb-24">
-            <h1 class="text-3xl md:text-5xl font-bold mb-8 glitch-text uppercase tracking-tighter">Reality Patch</h1>
-            <p class="text-xl leading-relaxed mb-6 text-gray-200">
-                You are building simulations. I am sampling the ground truth.
-            </p>
-            <p class="text-md leading-relaxed mb-12 italic opacity-80">
-                20 years in the wild. 1,400 meters above sea level. No algorithms, just the raw biological protocols of Yunnan's ancient forests. I don't sell tea; I provide physical evidence for digital architects.
-            </p>
-        </section>
-
-        <section class="border-data p-8 mb-24 bg-black bg-opacity-40">
-            <h2 class="text-xs uppercase tracking-widest mb-6 opacity-50">Current Observation: Tianmen Mountain 300YO</h2>
-            <div class="grid md:grid-cols-2 gap-8">
-                <div>
-                    <div class="w-full aspect-square bg-zinc-900 border border-zinc-800 flex items-center justify-center text-xs">
-                        [PHYSICAL SAMPLE VISUAL]
-                    </div>
-                </div>
-                <div class="text-sm space-y-4">
-                    <p><span class="text-emerald-500">[Audit_01]</span> High-Pole ancient tree structure. Optimized for zero-light competition.</p>
-                    <p><span class="text-emerald-500">[Audit_02]</span> Complex secondary metabolites. A natural firewall against high-entropy environments.</p>
-                    <p><span class="text-emerald-500">[Audit_03]</span> Human-Nature co-existence protocol (Hani Ethnic Tribe).</p>
-                    <div class="pt-6">
-                        <a href="YOUR_TYPEFORM_URL" class="inline-block bg-emerald-600 hover:bg-emerald-500 text-black font-bold py-3 px-8 transition-all uppercase text-xs">
-                            Request Access Protocol ($199)
-                        </a>
-                    </div>
-                </div>
+<body class="p-4 md:p-10">
+    <div class="max-w-5xl mx-auto">
+        <nav class="flex justify-between items-center border-b border-green-900 pb-4 mb-8">
+            <div class="text-xl font-bold italic tracking-widest">REALITY_PATCH_v2.0</div>
+            <div class="flex space-x-4 text-xs">
+                <span class="status-pulse text-red-500">● SYSTEM_LIVE</span>
+                <button onclick="alert('Redirecting to Clerk/Auth0 Login...')" class="border border-green-700 px-3 py-1 hover:bg-green-900 transition">LOGIN / REQUEST ACCESS</button>
             </div>
-        </section>
+        </nav>
 
-        <footer class="mt-32 text-[10px] opacity-30 flex flex-col gap-2">
-            <div>&copy; 2026 Reality Patch Observatory. All Rights Reserved.</div>
-            <div>Built on Ground Truth. No AI Hallucinations in Sampling.</div>
+        <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+            <aside class="space-y-6">
+                <div class="module-border p-4 text-[11px]">
+                    <h3 class="font-bold mb-4 border-b border-green-900 pb-2 uppercase">[Researcher_Profile]</h3>
+                    <p class="opacity-60">Status: Guest (Unverified)</p>
+                    <p class="opacity-60">Access Level: Level_0</p>
+                    <div class="mt-4 p-2 bg-red-900/20 border border-red-900 text-red-400">
+                        Register to unlock GPS coordinates and spectral analysis.
+                    </div>
+                </div>
+
+                <div class="module-border p-4 text-[11px]">
+                    <h3 class="font-bold mb-4 border-b border-green-900 pb-2 uppercase">[Consensus_Protocol]</h3>
+                    <p class="mb-4 text-green-300">Active Vote: Should we limit the 1,744m harvest to 100kg this year to preserve root hydraulic tension?</p>
+                    <button class="w-full border border-green-500 py-2 hover:bg-green-500 hover:text-black transition uppercase">Cast Vote</button>
+                </div>
+            </aside>
+
+            <main class="lg:col-span-2 space-y-8">
+                <article class="module-border p-6 relative overflow-hidden">
+                    <div class="absolute top-0 right-0 bg-green-900 px-4 py-1 text-[10px] text-black font-bold">VERIFIED_FIELD_DATA</div>
+                    
+                    <h2 class="text-xl font-bold mb-6">// AUDIT: TIENMEN_APEX_1744</h2>
+                    
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6">
+                        <div class="aspect-video bg-black border border-green-900 flex items-center justify-center group relative cursor-pointer">
+                            <span class="text-[10px] opacity-40 group-hover:opacity-100">[PLAY_SAMPLING_VIDEO]</span>
+                            <div class="absolute inset-0 bg-green-500/5 group-hover:bg-transparent"></div>
+                        </div>
+                        <div class="aspect-video bg-black border border-green-900 flex items-center justify-center overflow-hidden">
+                            <span class="text-[10px] opacity-40 text-center p-4">[PHOTO_SCAN: HIGH-STEM_STRUCTURE_#01]</span>
+                        </div>
+                    </div>
+
+                    <div class="space-y-4 text-sm leading-relaxed">
+                        <div class="flex justify-between border-b border-green-900/30 pb-2 text-[10px] opacity-60 uppercase">
+                            <span>Alt: 1,744m ASL</span>
+                            <span>Temp: 18.2°C</span>
+                            <span>Moisture: 82%</span>
+                        </div>
+                        <p class="text-white"><strong>Ground Truth:</strong> The 1,744m stratum contains exactly 28 authenticated units. Total annual output is capped at 140kg.</p>
+                        <p class="opacity-80">Subject is a "High-Stem" organism. Energy strategy: Zero lateral pruning. Solar capture is prioritized at the apex. This creates a specific nutrient density unique to the Kongxinshu sector.</p>
+                    </div>
+
+                    <div class="mt-8 pt-6 border-t border-dashed border-green-900">
+                        <div class="hidden-content">
+                            <p class="text-xs text-red-500 font-bold">[ENCRYPTED_GEO_LOCATION]</p>
+                            <p class="text-[10px]">Lat: 22.1643... Lon: 101.432...</p>
+                        </div>
+                        <div class="text-center mt-[-20px]">
+                            <button class="bg-green-600 text-black px-4 py-2 text-xs font-bold hover:bg-white transition">LOGIN TO DECRYPT DATA</button>
+                        </div>
+                    </div>
+                </article>
+
+                <div class="fixed bottom-6 right-6 w-64 module-border p-4 shadow-2xl bg-black border-2 border-green-500">
+                    <div class="flex justify-between items-center mb-2 border-b border-green-900 pb-1">
+                        <span class="text-[10px] font-bold uppercase">AI_Field_Agent</span>
+                        <span class="w-2 h-2 bg-green-500 rounded-full status-pulse"></span>
+                    </div>
+                    <div class="h-24 text-[10px] opacity-70 overflow-y-auto mb-2">
+                        System ready. Ask me about the 1,744m stratum or Yao ethnic protection protocols.
+                    </div>
+                    <input type="text" placeholder="Type query..." class="w-full bg-zinc-900 border border-green-900 text-[10px] p-2 focus:outline-none focus:border-green-400">
+                </div>
+            </main>
+        </div>
+
+        <footer class="mt-20 border-t border-green-900 pt-10 pb-20 text-[10px] opacity-30 flex justify-between uppercase tracking-widest">
+            <span>© 2026 Yunnan_Trip_Guide</span>
+            <span>Identity: Anthropologist_Field_Work_ID_001</span>
+            <span>Beijing | Singapore | London</span>
         </footer>
-    </main>
+    </div>
 </body>
 </html>
