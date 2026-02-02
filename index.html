@@ -3,99 +3,290 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>YUNNAN | Ground Truth OS</title>
+    <title>REALITY PATCH | Ground Truth Verification Protocol</title>
+    <!-- Tailwind CSS CDN -->
     <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Fonts: Space Grotesk for headings, JetBrains Mono for data -->
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;700&family=JetBrains+Mono:wght@300;400;700&display=swap" rel="stylesheet">
+    
     <style>
-        body { background-color: #050505; color: #00FF41; font-family: 'Courier New', Courier, monospace; }
-        .module-border { border: 1px solid #1a2e1a; background: rgba(0, 20, 0, 0.4); }
-        .status-pulse { animation: pulse 2s infinite; }
-        @keyframes pulse { 0% { opacity: 1; } 50% { opacity: 0.3; } 100% { opacity: 1; } }
-        .hidden-content { filter: blur(4px); pointer-events: none; }
+        :root {
+            --neon-green: #00ffa3;
+            --black: #000000;
+            --zinc-900: #18181b;
+            --zinc-800: #27272a;
+        }
+
+        body {
+            background-color: var(--black);
+            color: #a1a1aa;
+            font-family: 'JetBrains Mono', monospace;
+            cursor: crosshair;
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+
+        .heading-font {
+            font-family: 'Space Grotesk', sans-serif;
+        }
+
+        .neon-glow {
+            color: var(--neon-green);
+            text-shadow: 0 0 20px rgba(0, 255, 163, 0.4);
+        }
+
+        .border-neon {
+            border-color: rgba(0, 255, 163, 0.2);
+        }
+
+        .btn-neon {
+            border: 1px solid var(--neon-green);
+            color: var(--neon-green);
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            background: transparent;
+            text-transform: uppercase;
+            letter-spacing: 0.2em;
+            font-size: 10px;
+            font-weight: bold;
+        }
+
+        .btn-neon:hover {
+            background-color: var(--neon-green);
+            color: var(--black);
+            box-shadow: 0 0 25px rgba(0, 255, 163, 0.5);
+        }
+
+        .archive-overlay {
+            background: rgba(0, 0, 0, 0.98);
+            backdrop-filter: blur(15px);
+        }
+
+        /* Hide scrollbar but keep functionality */
+        ::-webkit-scrollbar { width: 4px; }
+        ::-webkit-scrollbar-track { background: #000; }
+        ::-webkit-scrollbar-thumb { background: #18181b; }
+        ::-webkit-scrollbar-thumb:hover { background: var(--neon-green); }
+
+        .scanline {
+            width: 100%;
+            height: 2px;
+            background: rgba(0, 255, 163, 0.03);
+            position: fixed;
+            z-index: 100;
+            top: 0;
+            animation: scan 10s linear infinite;
+            pointer-events: none;
+        }
+
+        @keyframes scan {
+            0% { top: 0; }
+            100% { top: 100%; }
+        }
+
+        .title-main {
+            font-style: italic;
+            font-weight: 900;
+            letter-spacing: -0.05em;
+            transform: skewX(-5deg);
+        }
+
+        input:focus {
+            outline: none;
+            border-color: var(--neon-green);
+        }
     </style>
 </head>
-<body class="p-4 md:p-10">
-    <div class="max-w-5xl mx-auto">
-        <nav class="flex justify-between items-center border-b border-green-900 pb-4 mb-8">
-            <div class="text-xl font-bold italic tracking-widest">REALITY_PATCH_v2.0</div>
-            <div class="flex space-x-4 text-xs">
-                <span class="status-pulse text-red-500">● SYSTEM_LIVE</span>
-                <button onclick="alert('Redirecting to Clerk/Auth0 Login...')" class="border border-green-700 px-3 py-1 hover:bg-green-900 transition">LOGIN / REQUEST ACCESS</button>
-            </div>
-        </nav>
+<body class="selection:bg-[#00ffa3] selection:text-black">
+    <div class="scanline"></div>
 
-        <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
-            <aside class="space-y-6">
-                <div class="module-border p-4 text-[11px]">
-                    <h3 class="font-bold mb-4 border-b border-green-900 pb-2 uppercase">[Researcher_Profile]</h3>
-                    <p class="opacity-60">Status: Guest (Unverified)</p>
-                    <p class="opacity-60">Access Level: Level_0</p>
-                    <div class="mt-4 p-2 bg-red-900/20 border border-red-900 text-red-400">
-                        Register to unlock GPS coordinates and spectral analysis.
-                    </div>
-                </div>
-
-                <div class="module-border p-4 text-[11px]">
-                    <h3 class="font-bold mb-4 border-b border-green-900 pb-2 uppercase">[Consensus_Protocol]</h3>
-                    <p class="mb-4 text-green-300">Active Vote: Should we limit the 1,744m harvest to 100kg this year to preserve root hydraulic tension?</p>
-                    <button class="w-full border border-green-500 py-2 hover:bg-green-500 hover:text-black transition uppercase">Cast Vote</button>
-                </div>
-            </aside>
-
-            <main class="lg:col-span-2 space-y-8">
-                <article class="module-border p-6 relative overflow-hidden">
-                    <div class="absolute top-0 right-0 bg-green-900 px-4 py-1 text-[10px] text-black font-bold">VERIFIED_FIELD_DATA</div>
-                    
-                    <h2 class="text-xl font-bold mb-6">// AUDIT: TIENMEN_APEX_1744</h2>
-                    
-                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6">
-                        <div class="aspect-video bg-black border border-green-900 flex items-center justify-center group relative cursor-pointer">
-                            <span class="text-[10px] opacity-40 group-hover:opacity-100">[PLAY_SAMPLING_VIDEO]</span>
-                            <div class="absolute inset-0 bg-green-500/5 group-hover:bg-transparent"></div>
-                        </div>
-                        <div class="aspect-video bg-black border border-green-900 flex items-center justify-center overflow-hidden">
-                            <span class="text-[10px] opacity-40 text-center p-4">[PHOTO_SCAN: HIGH-STEM_STRUCTURE_#01]</span>
-                        </div>
-                    </div>
-
-                    <div class="space-y-4 text-sm leading-relaxed">
-                        <div class="flex justify-between border-b border-green-900/30 pb-2 text-[10px] opacity-60 uppercase">
-                            <span>Alt: 1,744m ASL</span>
-                            <span>Temp: 18.2°C</span>
-                            <span>Moisture: 82%</span>
-                        </div>
-                        <p class="text-white"><strong>Ground Truth:</strong> The 1,744m stratum contains exactly 28 authenticated units. Total annual output is capped at 140kg.</p>
-                        <p class="opacity-80">Subject is a "High-Stem" organism. Energy strategy: Zero lateral pruning. Solar capture is prioritized at the apex. This creates a specific nutrient density unique to the Kongxinshu sector.</p>
-                    </div>
-
-                    <div class="mt-8 pt-6 border-t border-dashed border-green-900">
-                        <div class="hidden-content">
-                            <p class="text-xs text-red-500 font-bold">[ENCRYPTED_GEO_LOCATION]</p>
-                            <p class="text-[10px]">Lat: 22.1643... Lon: 101.432...</p>
-                        </div>
-                        <div class="text-center mt-[-20px]">
-                            <button class="bg-green-600 text-black px-4 py-2 text-xs font-bold hover:bg-white transition">LOGIN TO DECRYPT DATA</button>
-                        </div>
-                    </div>
-                </article>
-
-                <div class="fixed bottom-6 right-6 w-64 module-border p-4 shadow-2xl bg-black border-2 border-green-500">
-                    <div class="flex justify-between items-center mb-2 border-b border-green-900 pb-1">
-                        <span class="text-[10px] font-bold uppercase">AI_Field_Agent</span>
-                        <span class="w-2 h-2 bg-green-500 rounded-full status-pulse"></span>
-                    </div>
-                    <div class="h-24 text-[10px] opacity-70 overflow-y-auto mb-2">
-                        System ready. Ask me about the 1,744m stratum or Yao ethnic protection protocols.
-                    </div>
-                    <input type="text" placeholder="Type query..." class="w-full bg-zinc-900 border border-green-900 text-[10px] p-2 focus:outline-none focus:border-green-400">
-                </div>
-            </main>
+    <!-- Top Metadata Bar -->
+    <nav class="fixed top-0 w-full z-50 h-12 border-b border-zinc-900 bg-black flex justify-between items-center px-8 text-[9px] uppercase tracking-[0.2em] text-zinc-500 font-bold">
+        <div class="flex gap-8">
+            <span class="text-[#00ffa3] tracking-widest">REALITY PATCH // GROUND TRUTH</span>
+            <span class="hidden md:block">Lat: 22.0167° N | Long: 101.2333° E</span>
         </div>
+        <div class="flex gap-8 items-center">
+            <span class="flex items-center gap-2">
+                Status: <span class="text-[#00ffa3] animate-pulse">Live Sampling</span>
+            </span>
+            <span id="timestamp" class="text-zinc-700">2024-05-20T14:32:01Z</span>
+        </div>
+    </nav>
 
-        <footer class="mt-20 border-t border-green-900 pt-10 pb-20 text-[10px] opacity-30 flex justify-between uppercase tracking-widest">
-            <span>© 2026 Yunnan_Trip_Guide</span>
-            <span>Identity: Anthropologist_Field_Work_ID_001</span>
-            <span>Beijing | Singapore | London</span>
-        </footer>
+    <div class="min-h-screen flex flex-col">
+        <!-- Main Content Area -->
+        <main class="flex-1 pt-32 pb-32 px-8 md:px-20">
+            <div class="max-w-4xl mx-auto">
+                <!-- Hero Section -->
+                <section class="text-center mb-40">
+                    <h1 class="heading-font title-main text-7xl md:text-[140px] leading-none neon-glow mb-12">
+                        REALITY PATCH
+                    </h1>
+                    <div class="space-y-6">
+                        <p class="text-xl md:text-3xl text-white font-light tracking-tight">
+                            You are building simulations. <br>
+                            <span class="text-[#00ffa3] font-bold">I am sampling the ground truth.</span>
+                        </p>
+                        <div class="h-px w-24 bg-[#00ffa3]/30 mx-auto my-12"></div>
+                        <p class="text-[10px] uppercase tracking-[0.5em] text-zinc-600 font-bold">
+                            20 YEARS IN THE WILD. 1,400 METERS ABOVE SEA LEVEL. <br>
+                            <span class="opacity-50">Physical Verification for Digital Architects.</span>
+                        </p>
+                    </div>
+                </section>
+
+                <!-- Functional Cards -->
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-0 border border-zinc-900 mb-40">
+                    <div class="p-10 border-b md:border-b-0 md:border-r border-zinc-900 group hover:bg-zinc-950 transition-all">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-[#00ffa3] mb-6 opacity-40 group-hover:opacity-100 transition-all"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>
+                        <h3 class="text-[10px] font-bold text-[#00ffa3] uppercase tracking-[0.3em] mb-4">Reverse Marketing</h3>
+                        <p class="text-[9px] text-zinc-500 uppercase tracking-widest leading-loose">Filtering Silicon Valley elites via intellectual barriers.</p>
+                    </div>
+                    <div class="p-10 border-b md:border-b-0 md:border-r border-zinc-900 group hover:bg-zinc-950 transition-all">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-[#00ffa3] mb-6 opacity-40 group-hover:opacity-100 transition-all"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+                        <h3 class="text-[10px] font-bold text-[#00ffa3] uppercase tracking-[0.3em] mb-4">Anti-Fragility</h3>
+                        <p class="text-[9px] text-zinc-500 uppercase tracking-widest leading-loose">Static infrastructure for minimum maintenance overhead.</p>
+                    </div>
+                    <div class="p-10 group hover:bg-zinc-950 transition-all">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-[#00ffa3] mb-6 opacity-40 group-hover:opacity-100 transition-all"><ellipse cx="12" cy="5" rx="9" ry="3"/><path d="M21 12c0 1.66-4 3-9 3s-9-1.34-9-3"/><path d="M3 5v14c0 1.66 4 3 9 3s9-1.34 9-3V5"/></svg>
+                        <h3 class="text-[10px] font-bold text-[#00ffa3] uppercase tracking-[0.3em] mb-4">Data Convergence</h3>
+                        <p class="text-[9px] text-zinc-500 uppercase tracking-widest leading-loose">Manual high-touch follow-ups based on raw observation.</p>
+                    </div>
+                </div>
+
+                <!-- Field Archive Preview -->
+                <section class="space-y-24">
+                    <h3 class="text-[11px] font-bold uppercase tracking-[0.6em] text-zinc-700 mb-16 flex items-center gap-4">
+                        Field Archives <span class="h-px flex-1 bg-zinc-900"></span>
+                    </h3>
+
+                    <!-- NOTE_START: Yiwu Wangong -->
+                    <article class="relative group border border-zinc-900 p-8 hover:border-[#00ffa3]/30 transition-all">
+                        <div class="absolute -top-3 -left-3 px-3 py-1 bg-black border border-zinc-900 text-[8px] text-[#00ffa3] font-bold tracking-widest uppercase">
+                            Archive_YN_01
+                        </div>
+                        <header class="flex justify-between items-start mb-8">
+                            <h4 class="heading-font text-3xl text-zinc-100 font-bold uppercase tracking-tight">Yiwu Wangong: 300-Year Ancient Tree Sampling</h4>
+                            <span class="text-[9px] text-zinc-600 font-bold uppercase tracking-widest">Date: 2024.03.12</span>
+                        </header>
+                        <p class="text-xs text-zinc-500 max-w-2xl leading-relaxed mb-8 font-mono italic">
+                            "In the high-density competition of secondary forests, these 'survivors' have evolved extreme photosynthetic efficiency. They are not merely tea production units, but relays for data transmission at the forest floor level."
+                        </p>
+                        <div class="grid grid-cols-2 gap-4 mb-10">
+                            <div class="aspect-video bg-zinc-950 border border-zinc-900 flex items-center justify-center text-[8px] text-zinc-800 uppercase tracking-widest overflow-hidden relative group">
+                                <!-- [IMAGE_FEED] -->
+                                <span class="group-hover:text-[#00ffa3] transition-colors">Visual_Payload_01</span>
+                                <div class="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent"></div>
+                            </div>
+                            <div class="aspect-video bg-zinc-950 border border-zinc-900 flex items-center justify-center text-[8px] text-zinc-800 uppercase tracking-widest overflow-hidden relative group">
+                                <!-- [VIDEO_FEED] -->
+                                <span class="group-hover:text-[#00ffa3] transition-colors">Sensor_Stream_01</span>
+                            </div>
+                        </div>
+                        <button onclick="openAccess()" class="btn-neon px-8 py-3">
+                            [ Get_Full_Data ]
+                        </button>
+                    </article>
+                    <!-- NOTE_END -->
+                </section>
+
+                <footer class="mt-48 pt-12 border-t border-zinc-900 flex flex-col md:flex-row justify-between items-center gap-10 opacity-40 text-[8px] uppercase tracking-[0.4em]">
+                    <div class="text-center md:text-left">
+                        © Reality Patch 2024. Ground Truth Verification Protocol.
+                    </div>
+                    <div class="flex gap-8">
+                        <span>Identity_Audit</span>
+                        <span>Scarcity_Gating</span>
+                    </div>
+                </footer>
+            </div>
+        </main>
     </div>
+
+    <!-- Access Overlay -->
+    <div id="access-modal" class="fixed inset-0 z-[100] archive-overlay hidden flex items-center justify-center p-6">
+        <div class="max-w-md w-full border border-neon p-12 bg-black space-y-10 relative">
+            <button onclick="closeAccess()" class="absolute top-6 right-6 text-zinc-700 hover:text-[#00ffa3] transition-colors">✕</button>
+            
+            <div id="form-container" class="space-y-10">
+                <header class="space-y-4">
+                    <h2 class="heading-font text-4xl font-bold uppercase tracking-tighter text-[#00ffa3]">Access Audit</h2>
+                    <p class="text-[10px] text-zinc-500 uppercase tracking-widest leading-loose">
+                        This protocol is strictly limited to audiences with physical verification capabilities. Please enter your communication node (Email) to verify identity weight.
+                    </p>
+                </header>
+                
+                <div class="space-y-4">
+                    <input type="email" id="email-input" placeholder="USER@ARCHITECTURE.XYZ" 
+                           class="w-full bg-black border-b border-zinc-800 py-4 text-xs text-[#00ffa3] font-bold placeholder:text-zinc-800 tracking-widest">
+                </div>
+                
+                <button onclick="submitAccess()" class="w-full btn-neon py-5 text-[11px]">
+                    Initiate_Verification
+                </button>
+            </div>
+
+            <!-- Follow-up Guide after Success -->
+            <div id="success-message" class="hidden space-y-10">
+                <div class="p-6 bg-zinc-950 border-l-2 border-[#00ffa3]">
+                    <p class="text-[11px] text-zinc-300 leading-loose uppercase tracking-widest">
+                        "Verification successful. Intellectual access sequence established.<br><br>
+                        Please complete the ground sampling questionnaire below. Upon confirmation of payment, our field architects will deliver an exclusive verification solution within 7 business days."
+                    </p>
+                </div>
+                <a href="https://form.typeform.com/to/uF93QCaq" target="_blank" 
+                   class="block w-full text-center bg-[#00ffa3] text-black py-5 text-[11px] font-bold uppercase tracking-[0.4em] hover:brightness-110 transition-all">
+                    Enter_Questionnaire
+                </a>
+                <p class="text-[8px] text-center text-zinc-700 uppercase tracking-[0.3em]">
+                    LATENCY: SYNC_PENDING // 24H WINDOW
+                </p>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Real-time timestamp update
+        function updateTime() {
+            const now = new Date();
+            document.getElementById('timestamp').textContent = now.toISOString();
+        }
+        setInterval(updateTime, 100);
+        updateTime();
+
+        // Access Modal Logic
+        function openAccess() {
+            document.getElementById('access-modal').classList.remove('hidden');
+            document.body.style.overflow = 'hidden';
+        }
+
+        function closeAccess() {
+            document.getElementById('access-modal').classList.add('hidden');
+            document.body.style.overflow = 'auto';
+            document.getElementById('form-container').classList.remove('hidden');
+            document.getElementById('success-message').classList.add('hidden');
+        }
+
+        function submitAccess() {
+            const email = document.getElementById('email-input').value;
+            if (email && email.includes('@')) {
+                const btn = document.querySelector('#form-container button');
+                btn.textContent = 'Verifying_Node...';
+                btn.classList.add('animate-pulse');
+                btn.disabled = true;
+
+                setTimeout(() => {
+                    document.getElementById('form-container').classList.add('hidden');
+                    document.getElementById('success-message').classList.remove('hidden');
+                }, 2000);
+            } else {
+                alert('ERROR: INVALID_COMMUNICATION_PROTOCOL');
+            }
+        }
+
+        window.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape') closeAccess();
+        });
+    </script>
 </body>
 </html>
