@@ -3,78 +3,98 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>REALITY PATCH | Ground Truth Verification Protocol</title>
-    <!-- Tailwind CSS CDN -->
+    <title>REALITY PATCH | Ground Truth Protocol</title>
+    <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
-    <!-- Fonts: Space Grotesk for headings, JetBrains Mono for data -->
-    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;700&family=JetBrains+Mono:wght@300;400;700&display=swap" rel="stylesheet">
+    <!-- Google Fonts: JetBrains Mono for UI (Geeky/Code), Caveat for Field Notes -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@300;400;700&family=Caveat:wght@400;700&display=swap" rel="stylesheet">
     
     <style>
         :root {
             --neon-green: #00ffa3;
             --black: #000000;
-            --zinc-900: #18181b;
-            --zinc-800: #27272a;
+            --zinc-900: #121212;
+            --zinc-800: #1e1e1e;
         }
 
         body {
             background-color: var(--black);
-            color: #a1a1aa;
+            color: #d4d4d8;
+            /* Reverted to geeky code font for UI layer */
             font-family: 'JetBrains Mono', monospace;
-            cursor: crosshair;
-            line-height: 1.6;
             overflow-x: hidden;
+            scroll-behavior: smooth;
         }
 
-        .heading-font {
-            font-family: 'Space Grotesk', sans-serif;
+        .handwritten {
+            /* Kept for the field notes depth */
+            font-family: 'Caveat', cursive;
         }
 
-        .neon-glow {
+        .neon-text {
             color: var(--neon-green);
-            text-shadow: 0 0 20px rgba(0, 255, 163, 0.4);
+            text-shadow: 0 0 15px rgba(0, 255, 163, 0.4);
         }
 
-        .border-neon {
-            border-color: rgba(0, 255, 163, 0.2);
-        }
-
-        .btn-neon {
-            border: 1px solid var(--neon-green);
-            color: var(--neon-green);
-            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-            background: transparent;
-            text-transform: uppercase;
-            letter-spacing: 0.2em;
-            font-size: 10px;
-            font-weight: bold;
-        }
-
-        .btn-neon:hover {
+        .cursor-blink {
+            display: inline-block;
+            width: 12px;
+            height: 24px;
             background-color: var(--neon-green);
-            color: var(--black);
-            box-shadow: 0 0 25px rgba(0, 255, 163, 0.5);
+            margin-left: 4px;
+            animation: blink 1s infinite;
+            vertical-align: middle;
         }
 
-        .archive-overlay {
-            background: rgba(0, 0, 0, 0.98);
-            backdrop-filter: blur(15px);
+        @keyframes blink {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0; }
         }
 
-        /* Hide scrollbar but keep functionality */
-        ::-webkit-scrollbar { width: 4px; }
-        ::-webkit-scrollbar-track { background: #000; }
-        ::-webkit-scrollbar-thumb { background: #18181b; }
-        ::-webkit-scrollbar-thumb:hover { background: var(--neon-green); }
+        .breathing-status {
+            animation: breathe 3s ease-in-out infinite;
+        }
 
+        @keyframes breathe {
+            0%, 100% { opacity: 0.4; text-shadow: 0 0 5px rgba(0, 255, 163, 0); }
+            50% { opacity: 1; text-shadow: 0 0 10px rgba(0, 255, 163, 0.6); }
+        }
+
+        .card-border {
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .card-border:hover {
+            border-color: var(--neon-green);
+            background: rgba(0, 255, 163, 0.02);
+            transform: translateY(-4px);
+        }
+
+        .modal-overlay {
+            background: rgba(0, 0, 0, 0.95);
+            backdrop-filter: blur(8px);
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.4s ease;
+        }
+
+        .modal-overlay.active {
+            opacity: 1;
+            pointer-events: auto;
+        }
+
+        /* Scanline effect */
         .scanline {
             width: 100%;
             height: 2px;
-            background: rgba(0, 255, 163, 0.03);
+            background: rgba(0, 255, 163, 0.05);
             position: fixed;
             z-index: 100;
             top: 0;
-            animation: scan 10s linear infinite;
+            animation: scan 12s linear infinite;
             pointer-events: none;
         }
 
@@ -83,210 +103,176 @@
             100% { top: 100%; }
         }
 
-        .title-main {
-            font-style: italic;
-            font-weight: 900;
-            letter-spacing: -0.05em;
-            transform: skewX(-5deg);
+        ::-webkit-scrollbar {
+            width: 4px;
         }
-
-        input:focus {
-            outline: none;
-            border-color: var(--neon-green);
+        ::-webkit-scrollbar-track {
+            background: #000;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #27272a;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: var(--neon-green);
         }
     </style>
 </head>
 <body class="selection:bg-[#00ffa3] selection:text-black">
     <div class="scanline"></div>
 
-    <!-- Top Metadata Bar -->
-    <nav class="fixed top-0 w-full z-50 h-12 border-b border-zinc-900 bg-black flex justify-between items-center px-8 text-[9px] uppercase tracking-[0.2em] text-zinc-500 font-bold">
-        <div class="flex gap-8">
-            <span class="text-[#00ffa3] tracking-widest">REALITY PATCH // GROUND TRUTH</span>
-            <span class="hidden md:block">Lat: 22.0167° N | Long: 101.2333° E</span>
+    <!-- Top Navigation Metadata -->
+    <nav class="fixed top-0 w-full z-50 h-16 border-b border-white/5 bg-black/80 backdrop-blur-md flex justify-between items-center px-6 md:px-12">
+        <div class="flex items-center gap-6 text-[9px] uppercase tracking-[0.3em] font-bold text-zinc-500">
+            <span class="text-white">YN_TRIP_GUIDE</span>
+            <span class="hidden md:inline">22.0167° N / 101.2333° E</span>
         </div>
-        <div class="flex gap-8 items-center">
-            <span class="flex items-center gap-2">
-                Status: <span class="text-[#00ffa3] animate-pulse">Live Sampling</span>
-            </span>
-            <span id="timestamp" class="text-zinc-700">2024-05-20T14:32:01Z</span>
+        <div class="flex items-center gap-4 text-[9px] uppercase tracking-[0.2em]">
+            <span class="text-zinc-600">Status:</span>
+            <span class="neon-text breathing-status font-bold">Live Sampling [v1.8.4]</span>
         </div>
     </nav>
 
-    <div class="min-h-screen flex flex-col">
-        <!-- Main Content Area -->
-        <main class="flex-1 pt-32 pb-32 px-8 md:px-20">
-            <div class="max-w-4xl mx-auto">
-                <!-- Hero Section -->
-                <section class="text-center mb-40">
-                    <h1 class="heading-font title-main text-7xl md:text-[140px] leading-none neon-glow mb-12">
-                        REALITY PATCH
-                    </h1>
-                    <div class="space-y-6">
-                        <p class="text-xl md:text-3xl text-white font-light tracking-tight">
-                            You are building simulations. <br>
-                            <span class="text-[#00ffa3] font-bold">I am sampling the ground truth.</span>
-                        </p>
-                        <div class="h-px w-24 bg-[#00ffa3]/30 mx-auto my-12"></div>
-                        <p class="text-[10px] uppercase tracking-[0.5em] text-zinc-600 font-bold">
-                            20 YEARS IN THE WILD. 1,400 METERS ABOVE SEA LEVEL. <br>
-                            <span class="opacity-50">Physical Verification for Digital Architects.</span>
-                        </p>
-                    </div>
-                </section>
-
-                <!-- Functional Cards -->
-                <div class="grid grid-cols-1 md:grid-cols-3 gap-0 border border-zinc-900 mb-40">
-                    <div class="p-10 border-b md:border-b-0 md:border-r border-zinc-900 group hover:bg-zinc-950 transition-all">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-[#00ffa3] mb-6 opacity-40 group-hover:opacity-100 transition-all"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>
-                        <h3 class="text-[10px] font-bold text-[#00ffa3] uppercase tracking-[0.3em] mb-4">Reverse Marketing</h3>
-                        <p class="text-[9px] text-zinc-500 uppercase tracking-widest leading-loose">Filtering Silicon Valley elites via intellectual barriers.</p>
-                    </div>
-                    <div class="p-10 border-b md:border-b-0 md:border-r border-zinc-900 group hover:bg-zinc-950 transition-all">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-[#00ffa3] mb-6 opacity-40 group-hover:opacity-100 transition-all"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
-                        <h3 class="text-[10px] font-bold text-[#00ffa3] uppercase tracking-[0.3em] mb-4">Anti-Fragility</h3>
-                        <p class="text-[9px] text-zinc-500 uppercase tracking-widest leading-loose">Static infrastructure for minimum maintenance overhead.</p>
-                    </div>
-                    <div class="p-10 group hover:bg-zinc-950 transition-all">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-[#00ffa3] mb-6 opacity-40 group-hover:opacity-100 transition-all"><ellipse cx="12" cy="5" rx="9" ry="3"/><path d="M21 12c0 1.66-4 3-9 3s-9-1.34-9-3"/><path d="M3 5v14c0 1.66 4 3 9 3s9-1.34 9-3V5"/></svg>
-                        <h3 class="text-[10px] font-bold text-[#00ffa3] uppercase tracking-[0.3em] mb-4">Data Convergence</h3>
-                        <p class="text-[9px] text-zinc-500 uppercase tracking-widest leading-loose">Manual high-touch follow-ups based on raw observation.</p>
-                    </div>
-                </div>
-
-                <!-- Field Archive Preview -->
-                <section class="space-y-24">
-                    <h3 class="text-[11px] font-bold uppercase tracking-[0.6em] text-zinc-700 mb-16 flex items-center gap-4">
-                        Field Archives <span class="h-px flex-1 bg-zinc-900"></span>
-                    </h3>
-
-                    <!-- NOTE_START: Yiwu Wangong -->
-                    <article class="relative group border border-zinc-900 p-8 hover:border-[#00ffa3]/30 transition-all">
-                        <div class="absolute -top-3 -left-3 px-3 py-1 bg-black border border-zinc-900 text-[8px] text-[#00ffa3] font-bold tracking-widest uppercase">
-                            Archive_YN_01
-                        </div>
-                        <header class="flex justify-between items-start mb-8">
-                            <h4 class="heading-font text-3xl text-zinc-100 font-bold uppercase tracking-tight">Yiwu Wangong: 300-Year Ancient Tree Sampling</h4>
-                            <span class="text-[9px] text-zinc-600 font-bold uppercase tracking-widest">Date: 2024.03.12</span>
-                        </header>
-                        <p class="text-xs text-zinc-500 max-w-2xl leading-relaxed mb-8 font-mono italic">
-                            "In the high-density competition of secondary forests, these 'survivors' have evolved extreme photosynthetic efficiency. They are not merely tea production units, but relays for data transmission at the forest floor level."
-                        </p>
-                        <div class="grid grid-cols-2 gap-4 mb-10">
-                            <div class="aspect-video bg-zinc-950 border border-zinc-900 flex items-center justify-center text-[8px] text-zinc-800 uppercase tracking-widest overflow-hidden relative group">
-                                <!-- [IMAGE_FEED] -->
-                                <span class="group-hover:text-[#00ffa3] transition-colors">Visual_Payload_01</span>
-                                <div class="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent"></div>
-                            </div>
-                            <div class="aspect-video bg-zinc-950 border border-zinc-900 flex items-center justify-center text-[8px] text-zinc-800 uppercase tracking-widest overflow-hidden relative group">
-                                <!-- [VIDEO_FEED] -->
-                                <span class="group-hover:text-[#00ffa3] transition-colors">Sensor_Stream_01</span>
-                            </div>
-                        </div>
-                        <button onclick="openAccess()" class="btn-neon px-8 py-3">
-                            [ Get_Full_Data ]
-                        </button>
-                    </article>
-                    <!-- NOTE_END -->
-                </section>
-
-                <footer class="mt-48 pt-12 border-t border-zinc-900 flex flex-col md:flex-row justify-between items-center gap-10 opacity-40 text-[8px] uppercase tracking-[0.4em]">
-                    <div class="text-center md:text-left">
-                        © Reality Patch 2024. Ground Truth Verification Protocol.
-                    </div>
-                    <div class="flex gap-8">
-                        <span>Identity_Audit</span>
-                        <span>Scarcity_Gating</span>
-                    </div>
-                </footer>
-            </div>
-        </main>
-    </div>
-
-    <!-- Access Overlay -->
-    <div id="access-modal" class="fixed inset-0 z-[100] archive-overlay hidden flex items-center justify-center p-6">
-        <div class="max-w-md w-full border border-neon p-12 bg-black space-y-10 relative">
-            <button onclick="closeAccess()" class="absolute top-6 right-6 text-zinc-700 hover:text-[#00ffa3] transition-colors">✕</button>
-            
-            <div id="form-container" class="space-y-10">
-                <header class="space-y-4">
-                    <h2 class="heading-font text-4xl font-bold uppercase tracking-tighter text-[#00ffa3]">Access Audit</h2>
-                    <p class="text-[10px] text-zinc-500 uppercase tracking-widest leading-loose">
-                        This protocol is strictly limited to audiences with physical verification capabilities. Please enter your communication node (Email) to verify identity weight.
-                    </p>
-                </header>
-                
-                <div class="space-y-4">
-                    <input type="email" id="email-input" placeholder="USER@ARCHITECTURE.XYZ" 
-                           class="w-full bg-black border-b border-zinc-800 py-4 text-xs text-[#00ffa3] font-bold placeholder:text-zinc-800 tracking-widest">
-                </div>
-                
-                <button onclick="submitAccess()" class="w-full btn-neon py-5 text-[11px]">
-                    Initiate_Verification
-                </button>
-            </div>
-
-            <!-- Follow-up Guide after Success -->
-            <div id="success-message" class="hidden space-y-10">
-                <div class="p-6 bg-zinc-950 border-l-2 border-[#00ffa3]">
-                    <p class="text-[11px] text-zinc-300 leading-loose uppercase tracking-widest">
-                        "Verification successful. Intellectual access sequence established.<br><br>
-                        Please complete the ground sampling questionnaire below. Upon confirmation of payment, our field architects will deliver an exclusive verification solution within 7 business days."
-                    </p>
-                </div>
-                <a href="https://form.typeform.com/to/uF93QCaq" target="_blank" 
-                   class="block w-full text-center bg-[#00ffa3] text-black py-5 text-[11px] font-bold uppercase tracking-[0.4em] hover:brightness-110 transition-all">
-                    Enter_Questionnaire
-                </a>
-                <p class="text-[8px] text-center text-zinc-700 uppercase tracking-[0.3em]">
-                    LATENCY: SYNC_PENDING // 24H WINDOW
+    <main class="min-h-screen pt-40 pb-32 px-6 md:px-12 max-w-7xl mx-auto">
+        <!-- Hero Section -->
+        <header class="mb-32 max-w-4xl">
+            <h1 class="text-5xl md:text-8xl font-bold tracking-tighter text-white mb-8 italic">
+                REALITY PATCH<span class="cursor-blink"></span>
+            </h1>
+            <div class="space-y-6">
+                <p class="text-xl md:text-3xl font-light leading-snug text-zinc-300">
+                    You are building simulations. <br>
+                    <span class="neon-text font-bold">I am sampling the ground truth.</span>
                 </p>
+                <div class="h-px w-24 bg-[#00ffa3]/30"></div>
+                <p class="text-[10px] uppercase tracking-[0.5em] text-zinc-600 font-bold leading-relaxed">
+                    20 Years in the wild. 1,400 Meters baseline. <br>
+                    Archival verification for digital architects.
+                </p>
+            </div>
+        </header>
+
+        <!-- Field Observations Grid -->
+        <section class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-40">
+            <!-- Card 1 -->
+            <div onclick="openObservation('tea')" class="card-border p-8 cursor-pointer flex flex-col h-full">
+                <span class="text-[10px] text-zinc-700 font-bold mb-4">ARCHIVE // 001</span>
+                <h3 class="text-xl font-bold text-white mb-4 uppercase tracking-tighter">Tea & Geo-Ecology</h3>
+                <p class="text-[11px] text-zinc-500 leading-relaxed mb-8 flex-grow">Ancient tree root systems as biological fiber optics. Sampling YN-2024-TE.</p>
+                <div class="text-[10px] text-[#00ffa3] font-bold uppercase tracking-widest">[ Access_Log ]</div>
+            </div>
+
+            <!-- Card 2 -->
+            <div onclick="openObservation('culture')" class="card-border p-8 cursor-pointer flex flex-col h-full">
+                <span class="text-[10px] text-zinc-700 font-bold mb-4">ARCHIVE // 002</span>
+                <h3 class="text-xl font-bold text-white mb-4 uppercase tracking-tighter">Cultural Ethnography</h3>
+                <p class="text-[11px] text-zinc-500 leading-relaxed mb-8 flex-grow">Identity persistence in ritual cycles. Snapshots of faith in the deep mountains.</p>
+                <div class="text-[10px] text-[#00ffa3] font-bold uppercase tracking-widest">[ Access_Log ]</div>
+            </div>
+
+            <!-- Card 3 -->
+            <div onclick="openObservation('sound')" class="card-border p-8 cursor-pointer flex flex-col h-full">
+                <span class="text-[10px] text-zinc-700 font-bold mb-4">ARCHIVE // 003</span>
+                <h3 class="text-xl font-bold text-white mb-4 uppercase tracking-tighter">Soundscapes</h3>
+                <p class="text-[11px] text-zinc-500 leading-relaxed mb-8 flex-grow">The frequency of high-altitude silence. Acoustic verification of isolated ecosystems.</p>
+                <div class="text-[10px] text-[#00ffa3] font-bold uppercase tracking-widest">[ Access_Log ]</div>
+            </div>
+
+            <!-- Card 4 -->
+            <div onclick="openObservation('rituals')" class="card-border p-8 cursor-pointer flex flex-col h-full">
+                <span class="text-[10px] text-zinc-700 font-bold mb-4">ARCHIVE // 004</span>
+                <h3 class="text-xl font-bold text-white mb-4 uppercase tracking-tighter">Sacred Rituals</h3>
+                <p class="text-[11px] text-zinc-500 leading-relaxed mb-8 flex-grow">Symbolic redundancy. The protocol of fire, water, and ancestral memory.</p>
+                <div class="text-[10px] text-[#00ffa3] font-bold uppercase tracking-widest">[ Access_Log ]</div>
+            </div>
+        </section>
+
+        <!-- Footer Meta -->
+        <footer class="border-t border-white/5 pt-12 flex flex-col md:flex-row justify-between items-center gap-8 text-[9px] uppercase tracking-[0.4em] text-zinc-700">
+            <div>© Reality Patch 2024. Ground Truth Protocol.</div>
+            <div class="flex gap-12">
+                <span>Identity_Audit</span>
+                <span>Scarcity_Gating</span>
+                <span>Manual_Sampling</span>
+            </div>
+        </footer>
+    </main>
+
+    <!-- Modal Overlay -->
+    <div id="modal-overlay" class="modal-overlay fixed inset-0 z-[100] flex items-center justify-center p-6 md:p-12">
+        <div class="w-full max-w-2xl bg-zinc-900 border border-white/10 shadow-2xl overflow-hidden relative">
+            <!-- Close Button -->
+            <button onclick="closeModal()" class="absolute top-6 right-6 text-zinc-500 hover:text-white transition-colors z-10">
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+            </button>
+
+            <!-- Modal Content -->
+            <div class="p-8 md:p-12">
+                <div id="modal-header" class="mb-10 text-[10px] text-[#00ffa3] font-bold uppercase tracking-widest">Archive_Entry_Selected</div>
+                
+                <div class="handwritten text-2xl md:text-3xl text-zinc-200 leading-relaxed mb-12 italic" id="modal-text">
+                    <!-- Text will be injected here -->
+                </div>
+
+                <div class="h-px w-full bg-white/5 mb-10"></div>
+
+                <div class="flex flex-col md:flex-row items-center justify-between gap-6">
+                    <p class="text-[9px] text-zinc-600 uppercase tracking-widest max-w-[240px]">
+                        Subject to intellectual verification. Restricted dataset access requires official confirmation.
+                    </p>
+                    <a href="https://form.typeform.com/to/uF93QCaq" target="_blank" class="w-full md:w-auto bg-[#00ffa3] text-black px-10 py-4 text-[10px] font-bold uppercase tracking-[0.3em] hover:brightness-110 transition-all text-center">
+                        Request Access
+                    </a>
+                </div>
             </div>
         </div>
     </div>
 
     <script>
-        // Real-time timestamp update
-        function updateTime() {
-            const now = new Date();
-            document.getElementById('timestamp').textContent = now.toISOString();
-        }
-        setInterval(updateTime, 100);
-        updateTime();
+        const observations = {
+            tea: {
+                title: "ARCHIVE // 001: TEA & GEO-ECOLOGY",
+                text: "The roots of the 800-year-old high-pole trees in Yiwu don't just drink water; they hold the structural memory of the soil. Walking through the Mist Zone at 1,450m, you realize this isn't farming—it's stewardship of a living server. Every leaf contains a chemical snapshot of the season's rainfall. This is the ultimate proof of physical origin."
+            },
+            culture: {
+                title: "ARCHIVE // 002: CULTURAL ETHNOGRAPHY",
+                text: "In the Bulang villages, faith isn't a Sunday activity—it's the friction of daily life. The rituals here are designed for redundancy; they preserve identity against the erosion of modern connectivity. When the elders speak of the 'Tea Ancestor,' they are talking about a decentralized authority system that has outlasted three empires. We observed no corruption in the oral tradition."
+            },
+            sound: {
+                title: "ARCHIVE // 003: SOUNDSCAPES",
+                text: "Silence at high altitude is never empty. It's a high-fidelity recording of wind currents and secondary forest growth. By recording the 'Bio-Acoustic' baseline of Jingmai Mountain, we've identified the specific frequency of a healthy ecosystem. To experience this is to reset your own internal signal-to-noise ratio. Verification achieved through deep listening."
+            },
+            rituals: {
+                title: "ARCHIVE // 004: SACRED RITUALS",
+                text: "The ceremony of the First Harvest is an anti-fragile protocol. It involves specific fire-based purification that we've found nowhere else. It's not symbolic—it's an engineering requirement for community cohesion. By participating, you enter a state of 'Humanitarian Redundancy.' You are no longer just an observer; you are a data point in a 1,000-year continuity."
+            }
+        };
 
-        // Access Modal Logic
-        function openAccess() {
-            document.getElementById('access-modal').classList.remove('hidden');
+        function openObservation(id) {
+            const data = observations[id];
+            document.getElementById('modal-header').textContent = data.title;
+            document.getElementById('modal-text').textContent = data.text;
+            document.getElementById('modal-overlay').classList.add('active');
             document.body.style.overflow = 'hidden';
         }
 
-        function closeAccess() {
-            document.getElementById('access-modal').classList.add('hidden');
+        function closeModal() {
+            document.getElementById('modal-overlay').classList.remove('active');
             document.body.style.overflow = 'auto';
-            document.getElementById('form-container').classList.remove('hidden');
-            document.getElementById('success-message').classList.add('hidden');
         }
 
-        function submitAccess() {
-            const email = document.getElementById('email-input').value;
-            if (email && email.includes('@')) {
-                const btn = document.querySelector('#form-container button');
-                btn.textContent = 'Verifying_Node...';
-                btn.classList.add('animate-pulse');
-                btn.disabled = true;
-
-                setTimeout(() => {
-                    document.getElementById('form-container').classList.add('hidden');
-                    document.getElementById('success-message').classList.remove('hidden');
-                }, 2000);
-            } else {
-                alert('ERROR: INVALID_COMMUNICATION_PROTOCOL');
-            }
-        }
-
+        // Close on ESC
         window.addEventListener('keydown', (e) => {
-            if (e.key === 'Escape') closeAccess();
+            if (e.key === 'Escape') closeModal();
         });
+
+        // Version number flicker
+        setInterval(() => {
+            const versionSpan = document.querySelector('.neon-text.breathing-status');
+            if (Math.random() > 0.98) {
+                versionSpan.style.opacity = '0.3';
+                setTimeout(() => versionSpan.style.opacity = '1', 50);
+            }
+        }, 100);
     </script>
 </body>
 </html>
