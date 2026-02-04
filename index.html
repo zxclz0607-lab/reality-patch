@@ -15,21 +15,19 @@
         :root {
             --neon-green: #00ffa3;
             --black: #000000;
-            --zinc-900: #121212;
-            --zinc-800: #1e1e1e;
+            --zinc-900: #0a0a0a;
+            --zinc-800: #1a1a1a;
         }
 
         body {
             background-color: var(--black);
             color: #d4d4d8;
-            /* Reverted to geeky code font for UI layer */
             font-family: 'JetBrains Mono', monospace;
             overflow-x: hidden;
             scroll-behavior: smooth;
         }
 
         .handwritten {
-            /* Kept for the field notes depth */
             font-family: 'Caveat', cursive;
         }
 
@@ -63,19 +61,20 @@
         }
 
         .card-border {
-            border: 1px solid rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.08);
             transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+            background: rgba(10, 10, 10, 0.5);
         }
 
         .card-border:hover {
             border-color: var(--neon-green);
-            background: rgba(0, 255, 163, 0.02);
-            transform: translateY(-4px);
+            background: rgba(0, 255, 163, 0.03);
+            transform: translateY(-2px);
         }
 
         .modal-overlay {
-            background: rgba(0, 0, 0, 0.95);
-            backdrop-filter: blur(8px);
+            background: rgba(0, 0, 0, 0.98);
+            backdrop-filter: blur(12px);
             opacity: 0;
             pointer-events: none;
             transition: opacity 0.4s ease;
@@ -86,11 +85,10 @@
             pointer-events: auto;
         }
 
-        /* Scanline effect */
         .scanline {
             width: 100%;
             height: 2px;
-            background: rgba(0, 255, 163, 0.05);
+            background: rgba(0, 255, 163, 0.03);
             position: fixed;
             z-index: 100;
             top: 0;
@@ -103,17 +101,15 @@
             100% { top: 100%; }
         }
 
-        ::-webkit-scrollbar {
-            width: 4px;
-        }
-        ::-webkit-scrollbar-track {
-            background: #000;
-        }
-        ::-webkit-scrollbar-thumb {
-            background: #27272a;
-        }
-        ::-webkit-scrollbar-thumb:hover {
-            background: var(--neon-green);
+        ::-webkit-scrollbar { width: 4px; }
+        ::-webkit-scrollbar-track { background: #000; }
+        ::-webkit-scrollbar-thumb { background: #1a1a1a; }
+        ::-webkit-scrollbar-thumb:hover { background: var(--neon-green); }
+
+        .archive-entry {
+            border-left: 1px solid rgba(0, 255, 163, 0.2);
+            padding-left: 1.5rem;
+            margin-bottom: 3rem;
         }
     </style>
 </head>
@@ -124,11 +120,11 @@
     <nav class="fixed top-0 w-full z-50 h-16 border-b border-white/5 bg-black/80 backdrop-blur-md flex justify-between items-center px-6 md:px-12">
         <div class="flex items-center gap-6 text-[9px] uppercase tracking-[0.3em] font-bold text-zinc-500">
             <span class="text-white">YN_TRIP_GUIDE</span>
-            <span class="hidden md:inline">22.0167° N / 101.2333° E</span>
+            <span class="hidden md:inline">LOC: 22.1741° N / 100.0125° E</span>
         </div>
         <div class="flex items-center gap-4 text-[9px] uppercase tracking-[0.2em]">
             <span class="text-zinc-600">Status:</span>
-            <span class="neon-text breathing-status font-bold">Live Sampling [v1.8.4]</span>
+            <span class="neon-text breathing-status font-bold">Live Sampling [v1.9.1]</span>
         </div>
     </nav>
 
@@ -145,86 +141,57 @@
                 </p>
                 <div class="h-px w-24 bg-[#00ffa3]/30"></div>
                 <p class="text-[10px] uppercase tracking-[0.5em] text-zinc-600 font-bold leading-relaxed">
-                    20 Years in the wild. 1,400 Meters baseline. <br>
-                    Archival verification for digital architects.
+                    20 Years in the wild. Jingmai Core Baseline. <br>
+                    Cognitive cache clearing for digital architects.
                 </p>
             </div>
         </header>
 
         <!-- Field Observations Grid -->
-        <section class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-40">
-            <!-- Card 1 -->
-            <div onclick="openObservation('tea')" class="card-border p-8 cursor-pointer flex flex-col h-full">
-                <span class="text-[10px] text-zinc-700 font-bold mb-4">ARCHIVE // 001</span>
-                <h3 class="text-xl font-bold text-white mb-4 uppercase tracking-tighter">Tea & Geo-Ecology</h3>
-                <p class="text-[11px] text-zinc-500 leading-relaxed mb-8 flex-grow">Ancient tree root systems as biological fiber optics. Sampling YN-2024-TE.</p>
-                <div class="text-[10px] text-[#00ffa3] font-bold uppercase tracking-widest">[ Access_Log ]</div>
-            </div>
-
-            <!-- Card 2 -->
-            <div onclick="openObservation('culture')" class="card-border p-8 cursor-pointer flex flex-col h-full">
-                <span class="text-[10px] text-zinc-700 font-bold mb-4">ARCHIVE // 002</span>
-                <h3 class="text-xl font-bold text-white mb-4 uppercase tracking-tighter">Cultural Ethnography</h3>
-                <p class="text-[11px] text-zinc-500 leading-relaxed mb-8 flex-grow">Identity persistence in ritual cycles. Snapshots of faith in the deep mountains.</p>
-                <div class="text-[10px] text-[#00ffa3] font-bold uppercase tracking-widest">[ Access_Log ]</div>
-            </div>
-
-            <!-- Card 3 -->
-            <div onclick="openObservation('sound')" class="card-border p-8 cursor-pointer flex flex-col h-full">
-                <span class="text-[10px] text-zinc-700 font-bold mb-4">ARCHIVE // 003</span>
-                <h3 class="text-xl font-bold text-white mb-4 uppercase tracking-tighter">Soundscapes</h3>
-                <p class="text-[11px] text-zinc-500 leading-relaxed mb-8 flex-grow">The frequency of high-altitude silence. Acoustic verification of isolated ecosystems.</p>
-                <div class="text-[10px] text-[#00ffa3] font-bold uppercase tracking-widest">[ Access_Log ]</div>
-            </div>
-
-            <!-- Card 4 -->
-            <div onclick="openObservation('rituals')" class="card-border p-8 cursor-pointer flex flex-col h-full">
-                <span class="text-[10px] text-zinc-700 font-bold mb-4">ARCHIVE // 004</span>
-                <h3 class="text-xl font-bold text-white mb-4 uppercase tracking-tighter">Sacred Rituals</h3>
-                <p class="text-[11px] text-zinc-500 leading-relaxed mb-8 flex-grow">Symbolic redundancy. The protocol of fire, water, and ancestral memory.</p>
-                <div class="text-[10px] text-[#00ffa3] font-bold uppercase tracking-widest">[ Access_Log ]</div>
-            </div>
+        <section id="observation-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-40">
+            <!-- Cards will be injected here by JS -->
         </section>
 
         <!-- Footer Meta -->
         <footer class="border-t border-white/5 pt-12 flex flex-col md:flex-row justify-between items-center gap-8 text-[9px] uppercase tracking-[0.4em] text-zinc-700">
-            <div>© Reality Patch 2024. Ground Truth Protocol.</div>
+            <div>© Reality Patch 2024. Protocol: Jingmai Core.</div>
             <div class="flex gap-12">
-                <span>Identity_Audit</span>
-                <span>Scarcity_Gating</span>
-                <span>Manual_Sampling</span>
+                <span>Neuro_Audit</span>
+                <span>Faraday_Cage_Env</span>
+                <span>DMN_Optimization</span>
             </div>
         </footer>
     </main>
 
     <!-- Modal Overlay -->
     <div id="modal-overlay" class="modal-overlay fixed inset-0 z-[100] flex items-center justify-center p-6 md:p-12">
-        <div class="w-full max-w-2xl bg-zinc-900 border border-white/10 shadow-2xl overflow-hidden relative">
+        <div class="w-full max-w-3xl bg-zinc-900 border border-white/10 shadow-2xl overflow-hidden relative flex flex-col max-h-[90vh]">
             <!-- Close Button -->
-            <button onclick="closeModal()" class="absolute top-6 right-6 text-zinc-500 hover:text-white transition-colors z-10">
+            <button onclick="closeModal()" class="absolute top-6 right-6 text-zinc-500 hover:text-white transition-colors z-20">
                 <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
             </button>
 
-            <!-- Modal Content -->
-            <div class="p-8 md:p-12">
-                <div id="modal-header" class="mb-10 text-[10px] text-[#00ffa3] font-bold uppercase tracking-widest">Archive_Entry_Selected</div>
+            <!-- Modal Content (Scrollable) -->
+            <div class="p-8 md:p-12 overflow-y-auto flex-grow scroll-smooth">
+                <div id="modal-category" class="mb-10 text-[10px] text-[#00ffa3] font-bold uppercase tracking-[0.4em]">Archive_Protocol_Syncing</div>
                 
-                <div class="handwritten text-2xl md:text-3xl text-zinc-200 leading-relaxed mb-12 italic" id="modal-text">
-                    <!-- Text will be injected here -->
+                <div id="modal-archive-list" class="space-y-12">
+                    <!-- Archives will be injected here -->
                 </div>
+            </div>
 
-                <div class="h-px w-full bg-white/5 mb-10"></div>
-
+            <!-- Modal Footer (Fixed) -->
+            <div class="p-8 md:px-12 md:py-8 border-t border-white/5 bg-zinc-900/95 backdrop-blur-sm">
                 <div class="flex flex-col md:flex-row items-center justify-between gap-6">
-                    <p class="text-[9px] text-zinc-600 uppercase tracking-widest max-w-[240px]">
-                        Subject to intellectual verification. Restricted dataset access requires official confirmation.
+                    <p class="text-[8px] text-zinc-600 uppercase tracking-widest max-w-[280px]">
+                        Biological samples and next-step protocol are subject to intellectual verification.
                     </p>
                     <div class="w-full md:w-auto flex flex-col items-center md:items-end gap-3">
                         <a href="https://form.typeform.com/to/uF93QCaq" target="_blank" class="w-full md:w-auto bg-[#00ffa3] text-black px-10 py-4 text-[10px] font-bold uppercase tracking-[0.3em] hover:brightness-110 transition-all text-center">
                             Request Access
                         </a>
-                        <p class="text-[8px] text-zinc-700 uppercase tracking-wider text-center md:text-right leading-tight max-w-[280px]">
-                            Verification initiated. Our field analyst will review your profile. A curated archive and the next-step protocol will be dispatched to your email within 7 business days.
+                        <p class="text-[8px] text-zinc-700 uppercase tracking-wider text-center md:text-right leading-tight max-w-[320px]">
+                            Verification initiated. Protocol & biological samples dispatched via email within 7 business days.
                         </p>
                     </div>
                 </div>
@@ -233,29 +200,90 @@
     </div>
 
     <script>
-        const observations = {
-            tea: {
-                title: "ARCHIVE // 001: TEA & GEO-ECOLOGY",
-                text: "The roots of the 800-year-old high-pole trees in Yiwu don't just drink water; they hold the structural memory of the soil. Walking through the Mist Zone at 1,450m, you realize this isn't farming—it's stewardship of a living server. Every leaf contains a chemical snapshot of the season's rainfall. This is the ultimate proof of physical origin."
-            },
-            culture: {
-                title: "ARCHIVE // 002: CULTURAL ETHNOGRAPHY",
-                text: "In the Bulang villages, faith isn't a Sunday activity—it's the friction of daily life. The rituals here are designed for redundancy; they preserve identity against the erosion of modern connectivity. When the elders speak of the 'Tea Ancestor,' they are talking about a decentralized authority system that has outlasted three empires. We observed no corruption in the oral tradition."
-            },
-            sound: {
-                title: "ARCHIVE // 003: SOUNDSCAPES",
-                text: "Silence at high altitude is never empty. It's a high-fidelity recording of wind currents and secondary forest growth. By recording the 'Bio-Acoustic' baseline of Jingmai Mountain, we've identified the specific frequency of a healthy ecosystem. To experience this is to reset your own internal signal-to-noise ratio. Verification achieved through deep listening."
-            },
-            rituals: {
-                title: "ARCHIVE // 004: SACRED RITUALS",
-                text: "The ceremony of the First Harvest is an anti-fragile protocol. It involves specific fire-based purification that we've found nowhere else. It's not symbolic—it's an engineering requirement for community cohesion. By participating, you enter a state of 'Humanitarian Redundancy.' You are no longer just an observer; you are a data point in a 1,000-year continuity."
-            }
+        /* === DATABASE START: EDIT HERE === */
+        const CONTENT_DB = {
+            offline_reboot: [
+                {
+                    date: "2024.01.12",
+                    title: "SIGNAL TRUNCATION PROTOCOL",
+                    preview_text: "Signal truncation as a service. Establishing a strict Faraday Cage environment.",
+                    full_content: "In the high-density ancient tea forests of Jingmai, geographical isolation acts as a natural Faraday Cage. We don't offer 'peace'—we offer the truncation of the dopamine loop. By entering the 1,400m altitude dead zone, you force your neural circuits to clear the cognitive cache accumulated in the valley. This is not meditation; it is a system-level hardware reset."
+                }
+            ],
+            useless_moments: [
+                {
+                    date: "2024.02.05",
+                    title: "DMN MAINTENANCE CYCLES",
+                    preview_text: "Activating the Default Mode Network (DMN). Why idleness is a prerequisite for output.",
+                    full_content: "High-performance architects often mistake idleness for waste. At the Wengji fire pit, between 02:00 and 04:00, the absence of actionable input allows for Default Mode Network (DMN) optimization. This 'Useless Time' is the maintenance cycle where complex cognitive patterns are consolidated. Low-latency existence in the village is the cost of high-bandwidth output in the city."
+                }
+            ],
+            system_resilience: [
+                {
+                    date: "2024.03.18",
+                    title: "ANTIFRAGILE BIO-SYSTEMS",
+                    preview_text: "Biological antifragility. Ingesting the robustness of a 1000-year symbiotic ecosystem.",
+                    full_content: "The polycultural forests of Nuogang are a case study in system resilience. Without chemical intervention, these tea trees have co-evolved with epiphyte 'Crab's Feet' to form a robust, self-healing network. When you ingest these samples, you are not consuming caffeine; you are integrating the biological markers of a system that has outlasted three dynasties through sheer antifragility."
+                }
+            ],
+            user_presets: [
+                {
+                    date: "2024.04.01",
+                    title: "COGNITIVE OFFLOADING SDK",
+                    preview_text: "Protocol for cognitive offloading. Standardized ritual presets to minimize decision fatigue.",
+                    full_content: "Complexity is the enemy of flow. Our sampling protocol encapsulates 1,000 years of tea-drinking into a standardized SDK. Fixed water temperature, calibrated vessel volume, and specific ritual intervals reduce decision fatigue to near-zero. This preset allows the user to offload the mechanics of the ritual to muscle memory, clearing the primary processor for deep work."
+                }
+            ]
+        };
+        /* === DATABASE END === */
+
+        // Mapping human-readable titles for UI
+        const CATEGORY_META = {
+            offline_reboot: "Offline Reboot",
+            useless_moments: "Useless Moments",
+            system_resilience: "System Resilience",
+            user_presets: "User Presets"
         };
 
-        function openObservation(id) {
-            const data = observations[id];
-            document.getElementById('modal-header').textContent = data.title;
-            document.getElementById('modal-text').textContent = data.text;
+        function renderCards() {
+            const grid = document.getElementById('observation-grid');
+            let index = 1;
+            for (const key in CONTENT_DB) {
+                const latest = CONTENT_DB[key][CONTENT_DB[key].length - 1];
+                const card = `
+                    <div onclick="openObservation('${key}')" class="card-border p-8 cursor-pointer flex flex-col h-full group">
+                        <span class="text-[9px] text-zinc-700 font-bold mb-4 uppercase tracking-widest">ARCHIVE // 00${index}</span>
+                        <h3 class="text-lg font-bold text-white mb-4 uppercase tracking-tighter group-hover:text-[#00ffa3] transition-colors">${CATEGORY_META[key]}</h3>
+                        <p class="text-[10px] text-zinc-500 leading-relaxed mb-8 flex-grow">${latest.preview_text}</p>
+                        <div class="text-[9px] text-zinc-700 font-bold uppercase tracking-widest group-hover:text-[#00ffa3]">[ ACCESS_LOG ]</div>
+                    </div>
+                `;
+                grid.innerHTML += card;
+                index++;
+            }
+        }
+
+        function openObservation(key) {
+            const archives = CONTENT_DB[key];
+            const modalCategory = document.getElementById('modal-category');
+            const listContainer = document.getElementById('modal-archive-list');
+            
+            modalCategory.textContent = `Archive_Protocol_Syncing: ${CATEGORY_META[key].toUpperCase()}`;
+            
+            // Render all archives in reverse chronological order
+            listContainer.innerHTML = archives.slice().reverse().map(entry => `
+                <div class="archive-entry">
+                    <header class="mb-4 flex justify-between items-center opacity-40 text-[9px]">
+                        <span class="font-bold tracking-widest">TS: ${entry.date}</span>
+                        <span class="font-bold tracking-widest uppercase">ID: ${key.toUpperCase()}_REC</span>
+                    </header>
+                    <h4 class="text-white text-sm font-bold uppercase mb-6 tracking-widest">${entry.title}</h4>
+                    <p class="handwritten text-2xl md:text-3xl text-zinc-200 leading-relaxed italic">
+                        "${entry.full_content}"
+                    </p>
+                </div>
+            `).join('');
+
             document.getElementById('modal-overlay').classList.add('active');
             document.body.style.overflow = 'hidden';
         }
@@ -270,14 +298,19 @@
             if (e.key === 'Escape') closeModal();
         });
 
-        // Version number flicker
-        setInterval(() => {
-            const versionSpan = document.querySelector('.neon-text.breathing-status');
-            if (Math.random() > 0.98) {
-                versionSpan.style.opacity = '0.3';
-                setTimeout(() => versionSpan.style.opacity = '1', 50);
-            }
-        }, 100);
+        // Initialize
+        document.addEventListener('DOMContentLoaded', () => {
+            renderCards();
+            
+            // Version flicker logic
+            setInterval(() => {
+                const versionSpan = document.querySelector('.neon-text.breathing-status');
+                if (Math.random() > 0.98) {
+                    versionSpan.style.opacity = '0.3';
+                    setTimeout(() => versionSpan.style.opacity = '1', 50);
+                }
+            }, 100);
+        });
     </script>
 </body>
 </html>
